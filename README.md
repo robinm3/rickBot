@@ -1,7 +1,7 @@
 # rickBot
 Un bot messenger pour le coronavirus
 ## Comment l'utiliser?
-
+Aller sur cette page et cliquez 'envoyer un message', puis commencez à lui parler directement:
 https://www.facebook.com/Rickbotmarc-101108658265690/
 
 
