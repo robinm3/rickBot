@@ -22,12 +22,17 @@ Pas grand chose à dire? Parlez-lui un peu et demandez-lui comment ça va. Des c
 
 Demandez-lui pour jouer au tic-tac-toe et vous ne serez pas déçus. Il est quand même bon, mais vous pouvez tout de même gagner. Essayez-donc! (voir gameFunctionality pour le code)
 
+![ticTacToe](https://github.com/robinm3/rickBot/blob/master/images/ticTacToe.png?raw=true)
 
 ### Chanter Never Gonna Give You Up
 
 Il ne connait qu'une chanson, mais il la connait bien. Commencez en lui envoyant une des lignes de la chanson et vous pourrez chanter pendant longtemps! (voir singFunctionality pour le code)
 
+![singing](https://github.com/robinm3/rickBot/blob/master/images/sing.png?raw=true)
+
 ### Autres
 
 Il peut aussi vous envoyez des rickrolls si ça lui tente, sauvegarder votre localisation et dire n'importe quoi! Vous en serez peut-être surpris!
+
+![others](https://github.com/robinm3/rickBot/blob/master/images/whatCanYou2.png?raw=true)
 
