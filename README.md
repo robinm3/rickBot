@@ -16,7 +16,7 @@ Demandez des nouvelles et vous en recevrez. Seulement quand vous en demandez par
 
 Pas grand chose à dire? Parlez-lui un peu et demandez-lui comment ça va. Des conversations de base, mais nécessaires pour arriver à ce qu'on veut, voilà tout. (voir smallTalkFunctionality pour le code)
 
-![smallTalk](images/path/smallTalk.png?raw=true "Small Talk")
+![smallTalk](https://github.com/robinm3/rickBot/blob/master/images/smallTalk.png?raw=true)
 
 ### Jouer au tic-tac-toe
 
