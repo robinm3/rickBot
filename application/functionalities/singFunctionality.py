@@ -17,8 +17,9 @@ class SingFunctionality(Functionality):
         nextLyrics = "We're no strangers to love"
         lyricIndice = 0
         if getInDB(self.senderId, "rickPartLastLyrics"):
-            nextLyrics = neverGonnaGiveYouUp[int(getInDB(self.senderId, "rickPartLastLyrics") + 2)]
-            lyricIndice = getInDB(self.senderId, "rickPartLastLyrics")
+            if int(getInDB(self.senderId, "rickPartLastLyrics") + 2) < len(neverGonnaGiveYouUp):
+                nextLyrics = neverGonnaGiveYouUp[int(getInDB(self.senderId, "rickPartLastLyrics") + 2)]
+                lyricIndice = getInDB(self.senderId, "rickPartLastLyrics")
         for i in range(lyricIndice, len(neverGonnaGiveYouUp)):
             if neverGonnaGiveYouUp[i] == lyricFromUser:
                 nextLyrics = neverGonnaGiveYouUp[i + 1]

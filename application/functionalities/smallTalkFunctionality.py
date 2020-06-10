@@ -87,5 +87,5 @@ class SmallTalkFunctionality(Functionality):
 
 
 def getWhatCanYouDoResponse():
-    return "Je peux t'envoyer des nouvelles du COVID-19, te parler un peu, me rappeler de ta " \
-           "localisation et jouer au tic tac toe avec toi!"
+    return "Je peux t'envoyer des nouvelles du COVID-19, te parler un peu, jouer au tic tac toe avec toi, et chanter " \
+           "'Never gonna give you up' avec toi! "
