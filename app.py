@@ -1,9 +1,10 @@
 import sys
+import constants
 from flask import Flask, request
 from application.utils import Utils
 
 app = Flask(__name__)
-PAGE_ACCESS_TOKEN = "EAAJtOhvTldQBAOL2pxcIraYCU5p4a2BTKL3FxwReAGsm5RkoJqn3xfi4V2J3AZC4EEHg4yd1aj0FYNCdIZCgkmGLoxfuqrVBABH5ucBFRJZCnKfTaCIMoRr3YWYTyZAzuhmZBR7KsBIzz0nvFpqdrMfqubhbwPFEPp1M5lK9cJAZDZD"
+PAGE_ACCESS_TOKEN = constants.PAGE_ACCESS_TOKEN
 
 
 @app.route('/', methods=['GET'])
@@ -29,11 +30,9 @@ def webhook():
         for entry in data['entry']:
             try:
                 for messagingEvent in entry['messaging']:
-                    log(messagingEvent)
                     senderId = messagingEvent['sender']['id']
                     utilities = Utils(senderId, messagingEvent)
-                    responseToSend = utilities.process()
-                    log(responseToSend)
+                    utilities.process()
             except Exception as err:
                 log(err)
 

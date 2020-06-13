@@ -1,7 +1,7 @@
 import unittest
 
 from pymessenger import Bot
-import app
+import constants
 from application.dbAccess.pyMongo import setInDB, getInDB
 from application.functionalities.smallTalkFunctionality import SmallTalkFunctionality
 
@@ -11,7 +11,7 @@ class TestSmallTalkFunctionality(unittest.TestCase):
     Tests the SmallTalkFunctionality class
     """
     SENDER_ID = '1'
-    bot = Bot(app.PAGE_ACCESS_TOKEN)
+    bot = Bot(constants.PAGE_ACCESS_TOKEN)
     categories = {"greetings": "Hey", "response": "bien"}
     functionality = SmallTalkFunctionality(SENDER_ID, bot, categories)
 

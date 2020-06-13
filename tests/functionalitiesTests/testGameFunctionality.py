@@ -2,7 +2,7 @@ import unittest
 
 from pymessenger import Bot
 
-import app
+import constants
 from application.dbAccess.pyMongo import setInDB
 from application.functionalities.gameFunctionality import GameFunctionality
 
@@ -12,7 +12,7 @@ class TestGameFunctionality(unittest.TestCase):
     Tests the GameFunctionality class
     """
     SENDER_ID = '1'
-    bot = Bot(app.PAGE_ACCESS_TOKEN)
+    bot = Bot(constants.PAGE_ACCESS_TOKEN)
     categories = {"number": str(2)}
     payload = None
     functionality = GameFunctionality(SENDER_ID, bot, categories, payload)

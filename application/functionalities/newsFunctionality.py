@@ -1,12 +1,12 @@
 import gnewsclient
 from gnewsclient import gnewsclient
 import random
+import constants
 from pymessenger import Bot
 from application.dbAccess.pyMongo import getInDB, setInDB
 from application.functionalities.functionality import Functionality
 
-PAGE_ACCESS_TOKEN = "EAAJtOhvTldQBAOL2pxcIraYCU5p4a2BTKL3FxwReAGsm5RkoJqn3xfi4V2J3AZC4EEHg4yd1aj0FYNCdIZCgkmGLoxfuqrVBABH5ucBFRJZCnKfTaCIMoRr3YWYTyZAzuhmZBR7KsBIzz0nvFpqdrMfqubhbwPFEPp1M5lK9cJAZDZD"
-bot = Bot(PAGE_ACCESS_TOKEN)
+bot = Bot(constants.PAGE_ACCESS_TOKEN)
 
 
 class NewsFunctionality(Functionality):

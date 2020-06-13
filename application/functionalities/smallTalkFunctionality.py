@@ -46,10 +46,15 @@ class SmallTalkFunctionality(Functionality):
                      'ça va correct, merci'])
             setInDB(self.senderId, {"question2": None})
         elif 'question' in categories:
-            messageToSend += random.choice(['Ça va, toi?', 'Je sais pas trop, il y a rien de facile ces temps-ci. Toi?',
-                                            'Je vais bien. Ça va bien aller. Toi, comment tu vas?',
-                                            'Ça va correct, toi?'])
-            setInDB(self.senderId, {"question": "howAreYou"})
+            if '?' in categories.get('question') and len(categories.get('question')) == 1:
+                messageToSend = random.choice(['oui', 'non', 'je sais pas', 'peut-être'])
+            elif 'vie' in categories.get('question'):
+                messageToSend = 'la vie est morte, voilà la vérité'
+            else:
+                messageToSend += random.choice(['Ça va, toi?', 'Je sais pas trop, il y a rien de facile ces temps-ci. Toi?',
+                                                'Je vais bien. Ça va bien aller. Toi, comment tu vas?',
+                                                'Ça va correct, toi?'])
+                setInDB(self.senderId, {"question": "howAreYou"})
         elif not messageToSend:
             messageToSend = random.choice(
                 ["ah, ok", "hahaha, quoi!?", "je comprends pas ce que tu veux dire", "ah ben là là"])

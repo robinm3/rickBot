@@ -1,7 +1,7 @@
-import pymongo
+import constants
 from pymongo import MongoClient
 
-uri = "mongodb://heroku_l3gldrl4:jmt44ea6t3a6p44t2c3aka23nj@ds157735.mlab.com:57735/heroku_l3gldrl4"
+uri = constants.URI
 client = MongoClient(uri,
                      connectTimeoutMS=30000,
                      socketTimeoutMS=None,

@@ -2,7 +2,7 @@ import unittest
 
 from application.functionalities.functionality import Functionality
 from pymessenger import Bot
-import app
+import constants
 
 
 class TestFunctionality(unittest.TestCase):
@@ -10,7 +10,7 @@ class TestFunctionality(unittest.TestCase):
     Tests the Utils class
     """
     SENDER_ID = '1'
-    bot = Bot(app.PAGE_ACCESS_TOKEN)
+    bot = Bot(constants.PAGE_ACCESS_TOKEN)
     categories = {"newsType": "coronavirus"}
     functionality = Functionality(SENDER_ID, bot, categories)
 

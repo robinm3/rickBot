@@ -1,7 +1,7 @@
 import unittest
 
 from pymessenger import Bot
-import app
+import constants
 from application.dbAccess.pyMongo import setInDB, deleteFromDB
 from application.functionalities.singFunctionality import SingFunctionality
 
@@ -11,7 +11,7 @@ class TestSingFunctionality(unittest.TestCase):
     Tests the NewsFunctionality class
     """
     SENDER_ID = '1'
-    bot = Bot(app.PAGE_ACCESS_TOKEN)
+    bot = Bot(constants.PAGE_ACCESS_TOKEN)
     categories = {"rickSong": "We're no strangers to love"}
     functionality = SingFunctionality(SENDER_ID, bot, categories)
 

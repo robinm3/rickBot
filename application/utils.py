@@ -1,4 +1,5 @@
 import wit
+import constants
 from pymessenger import Bot
 from wit import Wit
 from application.dbAccess.pyMongo import getInDB, deleteFromDB
@@ -7,12 +8,10 @@ from application.functionalities.locationFunctionality import LocationFunctional
 from application.functionalities.newsFunctionality import NewsFunctionality
 from application.functionalities.singFunctionality import SingFunctionality
 from application.functionalities.smallTalkFunctionality import SmallTalkFunctionality
+from application.functionalities.weirdQuestionsFunctionality import WeirdQuestionsFunctionality
 
-wit_access_token = "QCMA2ZRYLIAHZ4Z6SJ26THDTZGLMZEKC"
-client = Wit(access_token=wit_access_token)
-
-PAGE_ACCESS_TOKEN = "EAAJtOhvTldQBAOL2pxcIraYCU5p4a2BTKL3FxwReAGsm5RkoJqn3xfi4V2J3AZC4EEHg4yd1aj0FYNCdIZCgkmGLoxfuqrVBABH5ucBFRJZCnKfTaCIMoRr3YWYTyZAzuhmZBR7KsBIzz0nvFpqdrMfqubhbwPFEPp1M5lK9cJAZDZD"
-bot = Bot(PAGE_ACCESS_TOKEN)
+client = Wit(access_token=constants.WIT_ACCESS_TOKEN)
+bot = Bot(constants.PAGE_ACCESS_TOKEN)
 
 
 class Utils:
@@ -65,7 +64,7 @@ class Utils:
             self.setPayload()
         elif eventType == "message":
             self.setMessageFromUser()
-        self.setWitCategories()
+            self.setWitCategories()
         responseToSend = self.getMessageResponse()
         if 'RICKROLL' in responseToSend.get('message'):
             RickRoll = responseToSend.get('message').get('RICKROLL')
@@ -94,18 +93,29 @@ class Utils:
         else:
             extractedMessage = ""
         self.messageFromUser = extractedMessage
+        print(self.messageFromUser)
 
     def setWitCategories(self):
         witCategories = {}
         messageFromUser = self.messageFromUser
         try:
             resp = client.message(messageFromUser)
-            for entity in list(resp['entities']):
-                witCategories[str(entity)] = resp['entities'][entity][0]['value']
-        except wit.wit.WitError:
+            print(resp)
+            for entity in resp['entities']:
+                print(entity)
+                witCategories[str(entity)] = []
+                for i in resp['entities'][entity]:
+                    print(i)
+                    witCategories[str(entity)].append(i['value'])
+                if len(witCategories[str(entity)]) == 1:
+                    witCategories[str(entity)] = witCategories[str(entity)][0]
+
+        except wit.wit.WitError as err:
+            print(err)
             pass
         if not witCategories:
             witCategories = {"categories": None}
+        print(witCategories)
         self.witCategories = witCategories
 
     def getMessageResponse(self):
@@ -122,6 +132,8 @@ class Utils:
                 functionality = NewsFunctionality(senderId, bot, categories)
             else:
                 functionality = SmallTalkFunctionality(senderId, bot, categories)
+        elif 'choice' in categories:
+            functionality = WeirdQuestionsFunctionality(senderId, bot, categories)
         elif 'rickSong' in categories:
             functionality = SingFunctionality(senderId, bot, categories)
         elif 'newsType' in categories:

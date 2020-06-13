@@ -1,9 +1,6 @@
 import unittest
-
 from application.dbAccess.pyMongo import setInDB, deleteFromDB
-from application.utils import Utils, PAGE_ACCESS_TOKEN
-from pymessenger import Bot
-import app
+from application.utils import Utils
 
 
 class TestUtils(unittest.TestCase):
@@ -20,6 +17,18 @@ class TestUtils(unittest.TestCase):
         self.utilities.witCategories = {"newsType"}
         response = self.utilities.process()
         self.assertEqual("text_message", response['type'])
+
+    def test_process_Question(self):
+        self.utilities.resetValues()
+        someTextSent = 'Vrai ou faux?'
+        MESSAGING_EVENT_EXAMPLE = {'sender': {'id': '1'}, 'recipient': {'id': '1'}, 'timestamp': 1589741756249,
+                                   'message': {
+                                       'mid': 'm_tNQZfCSPWbqdyv51mNsIHJ5LlpwnCaIRAbkiYStxbpo2G8q06-WX5lQ8OanDJnrFFQb50H0KPmqlksVml-ybQw',
+                                       'text': someTextSent}}
+        utilities = Utils(self.SENDER_ID, MESSAGING_EVENT_EXAMPLE)
+        response = utilities.process()
+        self.assertEqual("text_message", response['type'])
+        self.assertIn(response['message'], ['vrai', 'faux'])
 
     def test_witCategories_NewsType(self):
         self.utilities.resetValues()
@@ -46,6 +55,13 @@ class TestUtils(unittest.TestCase):
         response = self.utilities.getMessageResponse()
         self.assertEqual("text_message", response['type'])
         self.assertEqual("You know the rules and so do I", response['message'])
+
+    def test_getMessageResponse_WeirdQuestions(self):
+        self.utilities.resetValues()
+        self.utilities.witCategories = {"choice": ["no", "yes"]}
+        response = self.utilities.getMessageResponse()
+        self.assertEqual("text_message", response['type'])
+        self.assertIn(response['message'], ["no", "yes", "Trop difficile comme choix, ça!"])
 
     def test_getMessageResponse_Games(self):
         self.utilities.resetValues()
