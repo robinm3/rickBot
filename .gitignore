@@ -2,3 +2,4 @@ myvenv/
 /yes-2020-05-16_10.49.59.mkv
 *.pyc
 **.pyc
+constants.py
