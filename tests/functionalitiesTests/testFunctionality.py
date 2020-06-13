@@ -9,7 +9,8 @@ class TestFunctionality(unittest.TestCase):
     """
     Tests the Utils class
     """
-    SENDER_ID = '1'
+
+    SENDER_ID = "1"
     bot = Bot(constants.PAGE_ACCESS_TOKEN)
     categories = {"newsType": "coronavirus"}
     functionality = Functionality(SENDER_ID, bot, categories)
@@ -17,8 +18,8 @@ class TestFunctionality(unittest.TestCase):
     def test_getResponse(self):
         # check default message and type
         response = self.functionality.getResponse()
-        self.assertEqual("huh!?", response['message'])
-        self.assertEqual("text_message", response['type'])
+        self.assertEqual("huh!?", response["message"])
+        self.assertEqual("text_message", response["type"])
 
     def test_getCategoryValue(self):
         # get the value for a category
@@ -26,5 +27,5 @@ class TestFunctionality(unittest.TestCase):
         self.assertEqual("coronavirus", value)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

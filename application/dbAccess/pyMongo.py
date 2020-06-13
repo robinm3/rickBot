@@ -2,10 +2,9 @@ import constants
 from pymongo import MongoClient
 
 uri = constants.URI
-client = MongoClient(uri,
-                     connectTimeoutMS=30000,
-                     socketTimeoutMS=None,
-                     retryWrites=False)
+client = MongoClient(
+    uri, connectTimeoutMS=30000, socketTimeoutMS=None, retryWrites=False
+)
 
 db = client.get_default_database()
 collection = db["messenger"]

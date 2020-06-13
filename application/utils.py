@@ -8,7 +8,12 @@ from application.functionalities.locationFunctionality import LocationFunctional
 from application.functionalities.newsFunctionality import NewsFunctionality
 from application.functionalities.singFunctionality import SingFunctionality
 from application.functionalities.smallTalkFunctionality import SmallTalkFunctionality
-from application.functionalities.weirdQuestionsFunctionality import WeirdQuestionsFunctionality
+from application.functionalities.choiceQuestionsFunctionality import (
+    ChoiceQuestionsFunctionality,
+)
+from application.functionalities.toughQuestionsFunctionality import (
+    ToughQuestionsFunctionality,
+)
 
 client = Wit(access_token=constants.WIT_ACCESS_TOKEN)
 bot = Bot(constants.PAGE_ACCESS_TOKEN)
@@ -29,7 +34,7 @@ class Utils:
         if eventType:
             self.setResponseState("start")
             try:
-                responseToSend = (self.getResponseToSend(eventType))
+                responseToSend = self.getResponseToSend(eventType)
             except Exception as err:
                 messageToSend = rickRoll("Ce n'est pas ce que tu penses", "Clique ici")
                 responseToSend = {"message": messageToSend, "type": "generic_message"}
@@ -45,9 +50,9 @@ class Utils:
     def getEventType(self):
         eventType = ""
         messagingEvent = self.messagingEvent
-        if messagingEvent.get('postback'):
+        if messagingEvent.get("postback"):
             eventType = "postback"
-        elif messagingEvent.get('message'):
+        elif messagingEvent.get("message"):
             eventType = "message"
         return eventType
 
@@ -66,16 +71,16 @@ class Utils:
             self.setMessageFromUser()
             self.setWitCategories()
         responseToSend = self.getMessageResponse()
-        if 'RICKROLL' in responseToSend.get('message'):
-            RickRoll = responseToSend.get('message').get('RICKROLL')
+        if "RICKROLL" in responseToSend.get("message"):
+            RickRoll = responseToSend.get("message").get("RICKROLL")
             messageToSend = rickRoll(RickRoll[0], RickRoll[1])
             responseToSend = {"message": messageToSend, "type": "generic_message"}
         return responseToSend
 
     def sendMessage(self, response):
         senderId = self.senderId
-        messageType = response['type']
-        messageToSend = response['message']
+        messageType = response["type"]
+        messageToSend = response["message"]
         if messageType == "text_message":
             bot.send_text_message(senderId, messageToSend)
         elif messageType == "generic_message":
@@ -83,13 +88,13 @@ class Utils:
 
     def setPayload(self):
         messagingEvent = self.messagingEvent
-        if 'payload' in messagingEvent['postback']:
-            self.payload = messagingEvent['postback']['payload']
+        if "payload" in messagingEvent["postback"]:
+            self.payload = messagingEvent["postback"]["payload"]
 
     def setMessageFromUser(self):
         messagingEvent = self.messagingEvent
-        if 'text' in messagingEvent['message']:
-            extractedMessage = messagingEvent['message']['text']
+        if "text" in messagingEvent["message"]:
+            extractedMessage = messagingEvent["message"]["text"]
         else:
             extractedMessage = ""
         self.messageFromUser = extractedMessage
@@ -101,12 +106,12 @@ class Utils:
         try:
             resp = client.message(messageFromUser)
             print(resp)
-            for entity in resp['entities']:
+            for entity in resp["entities"]:
                 print(entity)
                 witCategories[str(entity)] = []
-                for i in resp['entities'][entity]:
+                for i in resp["entities"][entity]:
                     print(i)
-                    witCategories[str(entity)].append(i['value'])
+                    witCategories[str(entity)].append(i["value"])
                 if len(witCategories[str(entity)]) == 1:
                     witCategories[str(entity)] = witCategories[str(entity)][0]
 
@@ -124,7 +129,10 @@ class Utils:
         if getInDB(senderId, "state"):
             functionality = self.continueState()
         elif (getInDB(senderId, "question")) and (
-                'response' in categories or 'location' in categories or 'frequence' in categories):
+            "response" in categories
+            or "location" in categories
+            or "frequence" in categories
+        ):
             question = getInDB(senderId, "question")
             if "location" in question:
                 functionality = LocationFunctionality(senderId, bot, categories)
@@ -132,19 +140,31 @@ class Utils:
                 functionality = NewsFunctionality(senderId, bot, categories)
             else:
                 functionality = SmallTalkFunctionality(senderId, bot, categories)
-        elif 'choice' in categories:
-            functionality = WeirdQuestionsFunctionality(senderId, bot, categories)
-        elif 'rickSong' in categories:
-            functionality = SingFunctionality(senderId, bot, categories)
-        elif 'newsType' in categories:
+        elif "choice" in categories:
+            functionality = ChoiceQuestionsFunctionality(senderId, bot, categories)
+        elif "newsType" in categories:
             functionality = NewsFunctionality(senderId, bot, categories)
-        elif 'location' in categories:
+        elif "question" in categories and (
+            "Comment" in categories["question"]
+            or "Quand" in categories["question"]
+            or "Quel" in categories["question"]
+            or "Quelle" in categories["question"]
+            or "Qui" in categories["question"]
+            or "Où" in categories["question"]
+            or "Pourquoi" in categories["question"]
+            or "Que" in categories["question"]
+            or "Qu'" in categories["question"]
+        ):
+            functionality = ToughQuestionsFunctionality(senderId, bot, categories)
+        elif "rickSong" in categories:
+            functionality = SingFunctionality(senderId, bot, categories)
+        elif "location" in categories:
             functionality = LocationFunctionality(senderId, bot, categories)
-        elif 'game' in categories:
+        elif "game" in categories:
             functionality = GameFunctionality(senderId, bot, categories, self.payload)
         else:
             functionality = SmallTalkFunctionality(senderId, bot, categories)
-        if 'reset' in categories:
+        if "reset" in categories:
             deleteFromDB(senderId)
             return {"message": "ok, rebooting", "type": "text_message"}
         return functionality.getResponse()
@@ -159,17 +179,26 @@ class Utils:
     def continueState(self):
         state = getInDB(self.senderId, "state")
         if "game" in state:
-            functionality = GameFunctionality(self.senderId, bot, self.witCategories, self.payload)
+            functionality = GameFunctionality(
+                self.senderId, bot, self.witCategories, self.payload
+            )
         else:
-            functionality = SmallTalkFunctionality(self.senderId, bot, self.witCategories)
+            functionality = SmallTalkFunctionality(
+                self.senderId, bot, self.witCategories
+            )
         return functionality
 
 
 def rickRoll(title, buttonTitle):
-    return [{
-        'title': title,
-        'buttons': [{
-            'type': 'web_url',
-            'title': buttonTitle,
-            'url': 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-        }]}]
+    return [
+        {
+            "title": title,
+            "buttons": [
+                {
+                    "type": "web_url",
+                    "title": buttonTitle,
+                    "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                }
+            ],
+        }
+    ]

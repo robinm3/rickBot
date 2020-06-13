@@ -10,7 +10,8 @@ class TestNewsFunctionality(unittest.TestCase):
     """
     Tests the NewsFunctionality class
     """
-    SENDER_ID = '1'
+
+    SENDER_ID = "1"
     bot = Bot(constants.PAGE_ACCESS_TOKEN)
     categories = {"newsType": "coronavirus", "frequence": "jour"}
     functionality = NewsFunctionality(SENDER_ID, bot, categories)
@@ -19,16 +20,16 @@ class TestNewsFunctionality(unittest.TestCase):
         # check default message and type
         deleteFromDB(self.SENDER_ID)
         response = self.functionality.getResponse()
-        self.assertEqual("generic_message", response['type'])
-        self.assertTrue(len(response['message']) != 0)
+        self.assertEqual("generic_message", response["type"])
+        self.assertTrue(len(response["message"]) != 0)
 
     def test_getResponseRecurrence(self):
         deleteFromDB(self.SENDER_ID)
         response = self.functionality.getResponse()
-        self.assertEqual("generic_message", response['type'])
-        self.assertTrue(len(response['message']) != 0)
+        self.assertEqual("generic_message", response["type"])
+        self.assertTrue(len(response["message"]) != 0)
         setInDB(self.SENDER_ID, {"newsRecurrence": None})
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

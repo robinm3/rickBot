@@ -12,10 +12,7 @@ def tic_tac_toe(sender_id, bot):
         messageToSend += "\n"
     buttons = []
     for i in range(9):
-        buttons.append({"type": "postback",
-                        "title": i,
-                        "payload": str(i)
-                        })
+        buttons.append({"type": "postback", "title": i, "payload": str(i)})
     bot.send_button_message(sender_id, "Sur quelle case tu commence?", buttons)
     return messageToSend
 

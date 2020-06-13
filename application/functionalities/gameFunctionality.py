@@ -1,10 +1,10 @@
 import random
+import emojis
 from application.dbAccess.pyMongo import setInDB, getInDB
 from application.functionalities.functionality import Functionality
 
 
 class GameFunctionality(Functionality):
-
     def __init__(self, senderId, bot, categories, payload):
         super().__init__(senderId, bot, categories)
         self.payload = payload
@@ -21,18 +21,47 @@ class GameFunctionality(Functionality):
         self.messageType = "text_message"
 
     def getMessageToSend(self):
-        if self.state.get("game"):
-            if getInDB(self.senderId, "play") or self.gotResponse():
+        if self.state.get("game") or (
+            "game" in self.categories
+            and (
+                "rematch" in self.categories["game"]
+                or "rejouer" in self.categories["game"]
+            )
+        ):
+            if (
+                getInDB(self.senderId, "play")
+                or self.gotResponse()
+                or (
+                    "game" in self.categories
+                    and (
+                        "rematch" in self.categories["game"]
+                        or "rejouer" in self.categories["game"]
+                    )
+                )
+            ):
+                setInDB(
+                    self.senderId,
+                    {
+                        "state": {"game": "tic-tac-toe"},
+                        "game": "tic-tac-toe",
+                        "play": True,
+                    },
+                )
                 messageToSend = self.continuePlayingTicTacToe()
-                setInDB(self.senderId, {"play": True})
             else:
                 setInDB(self.senderId, {"state": None, "play": False, "game": None})
                 messageToSend = "ok, let's stop for now"
         elif "game" in self.categories:
             print(self.state)
-            messageToSend = "Tu veux jouer au {0}?".format(str(self.categories['game']))
-            setInDB(self.senderId,
-                    {"state": {"game": str(self.categories['game'])}, "game": self.categories['game'], "play": False})
+            messageToSend = "Tu veux jouer au tic-tac-toe?"
+            setInDB(
+                self.senderId,
+                {
+                    "state": {"game": "tic-tac-toe"},
+                    "game": "tic-tac-toe",
+                    "play": False,
+                },
+            )
         else:
             setInDB(self.senderId, {"state": None, "play": False, "game": None})
             messageToSend = "nuh"
@@ -61,21 +90,33 @@ class GameFunctionality(Functionality):
                 grid = self.makeTicTacToeMove(grid, move, "x")
                 setInDB(self.senderId, {"play": True, "grid": grid})
             if checkIfTicTacToeWin(grid):
-                messageToSend = "Tu as gagné!! Bravo!"
-                setInDB(self.senderId, {"state": None, "play": False, "game": None, "grid": None})
+                messageToSend = "Tu as gagné!! Bravo" + emojis.PARTY_POPPER + " !"
+                setInDB(
+                    self.senderId,
+                    {"state": None, "play": False, "game": None, "grid": None},
+                )
             elif len(listTicTacToeMovesAvailable(grid)) == 0:
                 messageToSend = "Égalité! Bonne partie"
-                setInDB(self.senderId, {"state": None, "play": False, "game": None, "grid": None})
+                setInDB(
+                    self.senderId,
+                    {"state": None, "play": False, "game": None, "grid": None},
+                )
             else:
                 move = computerPlayTicTacToe(grid)
                 grid = self.makeTicTacToeMove(grid, move, "o")
                 setInDB(self.senderId, {"play": True, "grid": grid})
                 if checkIfTicTacToeWin(grid):
-                    messageToSend = "J'ai gagné!! Haha!"
-                    setInDB(self.senderId, {"state": None, "play": False, "game": None, "grid": None})
+                    messageToSend = "J'ai gagné!! Haha!" + emojis.PARTY_FACE
+                    setInDB(
+                        self.senderId,
+                        {"state": None, "play": False, "game": None, "grid": None},
+                    )
                 elif len(listTicTacToeMovesAvailable(grid)) == 0:
-                    messageToSend = "Égalité! Bonne partie"
-                    setInDB(self.senderId, {"state": None, "play": False, "game": None, "grid": None})
+                    messageToSend = "Égalité! Bonne partie" + emojis.THUMBS_UP
+                    setInDB(
+                        self.senderId,
+                        {"state": None, "play": False, "game": None, "grid": None},
+                    )
         textGrid = "\n"
         for i in grid:
             textGrid += "|"
@@ -102,7 +143,14 @@ class GameFunctionality(Functionality):
     def gotResponse(self):
         gotResponse = False
         try:
-            if self.categories['response'] in ("oui", "correct", "bien sûr"):
+            if self.categories["response"] in (
+                "oui",
+                "correct",
+                "bien sûr",
+                "Yep",
+                "yep",
+                "Oui",
+            ):
                 gotResponse = True
         except KeyError:
             gotResponse = False
@@ -111,10 +159,10 @@ class GameFunctionality(Functionality):
         return gotResponse
 
     def makeTicTacToeMove(self, grid, move, player):
-        if player == 'o':
-            competitor = 'x'
+        if player == "o":
+            competitor = "x"
         else:
-            competitor = 'o'
+            competitor = "o"
         try:
             indiceI = 0
             for i in grid:
@@ -133,7 +181,7 @@ def getTicTacToeMoveAvailability(grid, move):
     availability = True
     for i in grid:
         for j in i:
-            if move == str(j) and (j == 'o' or j == 'x'):
+            if move == str(j) and (j == "o" or j == "x"):
                 availability = False
     if move == str(8):
         availability = True
@@ -144,7 +192,7 @@ def listTicTacToeMovesAvailable(grid):
     availableMoves = []
     for i in grid:
         for j in i:
-            if j not in ['o', 'x'] or j == str(0):
+            if j not in ["o", "x"] or j == str(0):
                 availableMoves.append(str(j))
     return availableMoves
 
@@ -217,8 +265,8 @@ def computerPlayTicTacToe(grid):
             move = 6
         elif 2 in listAvailableMoves:
             move = 2
-    if len(listGoodMoves.get('o')) != 0:
-        move = listGoodMoves.get('o')[0]
-    elif len(listGoodMoves.get('x')) != 0:
-        move = listGoodMoves.get('x')[0]
+    if len(listGoodMoves.get("o")) != 0:
+        move = listGoodMoves.get("o")[0]
+    elif len(listGoodMoves.get("x")) != 0:
+        move = listGoodMoves.get("x")[0]
     return str(move)

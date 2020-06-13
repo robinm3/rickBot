@@ -1,6 +1,12 @@
 import unittest
 
-from application.dbAccess.pyMongo import setInDB, getInDB, findInDB, deleteFromDB, findAllInDB
+from application.dbAccess.pyMongo import (
+    setInDB,
+    getInDB,
+    findInDB,
+    deleteFromDB,
+    findAllInDB,
+)
 
 
 class TestPyMongo(unittest.TestCase):
@@ -47,11 +53,11 @@ class TestPyMongo(unittest.TestCase):
         setInDB(1, {"potatoe": "meh"})
         setInDB(2, {"potatoe": None})
         peopleFound = findAllInDB("potatoe", "meh")
-        self.assertEqual(1, (peopleFound[0]).get('_id'))
+        self.assertEqual(1, (peopleFound[0]).get("_id"))
         deleteFromDB(0)
         deleteFromDB(1)
         deleteFromDB(2)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

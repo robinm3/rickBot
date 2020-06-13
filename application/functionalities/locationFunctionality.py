@@ -3,7 +3,6 @@ from application.functionalities.functionality import Functionality
 
 
 class LocationFunctionality(Functionality):
-
     def __init__(self, senderId, bot, categories):
         super().__init__(senderId, bot, categories)
         self.newLocation = ""
@@ -23,7 +22,7 @@ class LocationFunctionality(Functionality):
         if "location" in question:
             messageToSend = self.continueQuestion()
         else:
-            self.newLocation = str(categories['location'])
+            self.newLocation = str(categories["location"])
             if getInDB(senderId, "location") != self.newLocation:
                 messageToSend = self.askToChangeLocation()
             else:
@@ -35,9 +34,11 @@ class LocationFunctionality(Functionality):
         senderId = self.senderId
         oldLocation = getInDB(senderId, "location")
         if not oldLocation:
-            oldLocation = 'inconnue'
-        messageToSend = "Ta localisation jusqu'à maintenant était {0}" \
-                        ", est-ce que tu veux la changer?".format(oldLocation)
+            oldLocation = "inconnue"
+        messageToSend = (
+            "Ta localisation jusqu'à maintenant était {0}"
+            ", est-ce que tu veux la changer?".format(oldLocation)
+        )
         setInDB(senderId, {"question": "location", "response": newLocation})
         return messageToSend
 
@@ -45,7 +46,9 @@ class LocationFunctionality(Functionality):
         newLocation = self.newLocation
         senderId = self.senderId
         setInDB(senderId, {"location": newLocation})
-        return "Ok, donc je garde {0} en note comme étant ta localisation!".format(newLocation)
+        return "Ok, donc je garde {0} en note comme étant ta localisation!".format(
+            newLocation
+        )
 
     def continueQuestion(self):
         senderId = self.senderId
@@ -62,4 +65,4 @@ class LocationFunctionality(Functionality):
         for i in ("oui", "correct", "bien sûr"):
             if i in self.getCategoryValue("response"):
                 acceptLocation = True
-        return acceptLocation or self.categories.get('location') == self.newLocation
+        return acceptLocation or self.categories.get("location") == self.newLocation
