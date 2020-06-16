@@ -30,3 +30,4 @@ Werkzeug==1.0.1
 wit==5.1.0
 
 pymongo~=3.10.1
+django-emoji~=2.2.2

@@ -27,7 +27,7 @@ class TestWeirdQuestionsFunctionality(unittest.TestCase):
                 "La 4e à ta gauche",
                 "Hmmm. Bonne question. Si j'avais le choix, je pense que je choisirais celle qui est la même que le "
                 "fils unique de la fille unique de ma grand-mère",
-                "La patate à Mononc' Serge",
+                "La même que la patate à Mononc' Serge",
             ],
         )
 

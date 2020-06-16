@@ -28,17 +28,7 @@ class GameFunctionality(Functionality):
                 or "rejouer" in self.categories["game"]
             )
         ):
-            if (
-                getInDB(self.senderId, "play")
-                or self.gotResponse()
-                or (
-                    "game" in self.categories
-                    and (
-                        "rematch" in self.categories["game"]
-                        or "rejouer" in self.categories["game"]
-                    )
-                )
-            ):
+            if getInDB(self.senderId, "play"):
                 setInDB(
                     self.senderId,
                     {
@@ -48,9 +38,28 @@ class GameFunctionality(Functionality):
                     },
                 )
                 messageToSend = self.continuePlayingTicTacToe()
+            elif self.gotResponse() or (
+                "game" in self.categories
+                and (
+                    "rematch" in self.categories["game"]
+                    or "rejouer" in self.categories["game"]
+                )
+            ):
+                setInDB(
+                    self.senderId,
+                    {
+                        "state": {"game": "tic-tac-toe"},
+                        "game": "tic-tac-toe",
+                        "play": False,
+                    },
+                )
+                messageToSend = self.continuePlayingTicTacToe()
+                setInDB(
+                    self.senderId, {"play": True,},
+                )
             else:
                 setInDB(self.senderId, {"state": None, "play": False, "game": None})
-                messageToSend = "ok, let's stop for now"
+                messageToSend = "Non? okidoki"
         elif "game" in self.categories:
             print(self.state)
             messageToSend = "Tu veux jouer au tic-tac-toe?"
@@ -138,7 +147,11 @@ class GameFunctionality(Functionality):
                         move = "0"
             return str(move)
         except Exception as err:
-            raise TypeError("Mais ce n'est pas un numéro ça!")
+            if self.categories.get("stop"):
+                setInDB(self.senderId, {"state": None, "play": False, "game": None})
+                raise TypeError("Ok, On arrête pour l'instant")
+            else:
+                raise TypeError("Mais ce n'est pas un numéro ça!")
 
     def gotResponse(self):
         gotResponse = False

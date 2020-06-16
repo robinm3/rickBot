@@ -43,7 +43,7 @@ class TestUtils(unittest.TestCase):
         utilities = Utils(self.SENDER_ID, MESSAGING_EVENT_EXAMPLE)
         response = utilities.process()
         self.assertEqual("text_message", response["type"])
-        self.assertIn(response["message"], ["vrai", "faux"])
+        self.assertIn(response["message"], ["Vrai", "faux"])
 
     def test_witCategories_NewsType(self):
         self.utilities.resetValues()
@@ -61,7 +61,6 @@ class TestUtils(unittest.TestCase):
         self.utilities.resetValues()
         self.utilities.witCategories = {"newsType"}
         response = self.utilities.getMessageResponse()
-        print(response)
         self.assertEqual("generic_message", response["type"])
 
     def test_getMessageResponse_Sing(self):

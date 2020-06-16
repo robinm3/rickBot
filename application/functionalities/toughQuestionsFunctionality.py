@@ -11,7 +11,9 @@ class ToughQuestionsFunctionality(Functionality):
 
     def getMessageToSend(self):
         messageToSend = "Humm, bonne question. Je ne sais pas"
-        if "question" in self.categories:
+        if "whatCanYouDo" in self.categories:
+            messageToSend = self.respondToWhatCanYouDo()
+        elif "question" in self.categories:
             question = self.categories["question"]
             if "Comment" in question:
                 messageToSend = self.respondToHow()
@@ -72,34 +74,20 @@ class ToughQuestionsFunctionality(Functionality):
                 "La 4e à ta gauche",
                 "Hmmm. Bonne question. Si j'avais le choix, je pense que je choisirais celle qui est la même que le "
                 "fils unique de la fille unique de ma grand-mère",
-                "La patate à Mononc' Serge",
+                "La même que la patate à Mononc' Serge",
             ]
         )
 
     def respondToWho(self):
-        if "whatCanYouDo" in self.categories:
-            messageToSend = ""
-            if (
-                "es-tu" in self.categories["whatCanYouDo"]
-                or "es tu" in self.categories["whatCanYouDo"]
-            ):
-                messageToSend = "Je suis RickBot! "
-            if random.choice([False, True, False, False]):
-                messageToSend = {
-                    "RICKROLL": ["Je s'appelle Groot...hum, RickBot ", "Clique ici"]
-                }
-            else:
-                messageToSend += getWhatCanYouDoResponse()
-        else:
-            messageToSend = random.choice(
-                [
-                    "C'est Michael Jackson réincarné",
-                    "Qui? Et bien c'est la même personne que celle qui joue un rôle dans le film que tu as regardé hier",
-                    "C'est le genre de personne qui dirais...(Lire dans la voix de Darth Vador) Je suis ton père ",
-                    "C'est l'enfant unique de la fille unique de ma grand-mère",
-                    "Tout ce que je peux te dire, c'est que dans une autre vie, c'était un ver de terre",
-                ]
-            )
+        messageToSend = random.choice(
+            [
+                "C'est Michael Jackson réincarné",
+                "Qui? Et bien c'est la même personne que celle qui joue un rôle dans le film que tu as regardé hier",
+                "C'est le genre de personne qui dirais...(Lire dans la voix de Darth Vador) Je suis ton père ",
+                "C'est l'enfant unique de la fille unique de ma grand-mère",
+                "Tout ce que je peux te dire, c'est que dans une autre vie, c'était un ver de terre",
+            ]
+        )
         return messageToSend
 
     def respondToWhere(self):
@@ -136,3 +124,18 @@ class ToughQuestionsFunctionality(Functionality):
                 "J'ai pas toute la journée, non mais " + emojis.CRYING_FACE,
             ]
         )
+
+    def respondToWhatCanYouDo(self):
+        messageToSend = ""
+        if (
+            "es-tu" in self.categories["whatCanYouDo"]
+            or "es tu" in self.categories["whatCanYouDo"]
+        ):
+            messageToSend = "Je suis RickBot! "
+        if random.choice([False, True, False, False]):
+            messageToSend = {
+                "RICKROLL": ["Je s'appelle Groot...hum, RickBot ", "Clique ici"]
+            }
+        else:
+            messageToSend += getWhatCanYouDoResponse()
+        return messageToSend

@@ -141,7 +141,7 @@ class SmallTalkFunctionality(Functionality):
             messageToSend = random.choice(
                 [
                     "Tant mieux!",
-                    "Et ben. Ça va bien aller" + emojis.RAINBOW + ", comme on dit",
+                    "Et ben. Ça va bien aller " + emojis.RAINBOW + ", comme on dit",
                     "Tout va bien alors " + emojis.HAPPY_FACE + "!",
                 ]
             )
@@ -150,6 +150,7 @@ class SmallTalkFunctionality(Functionality):
 
 def getWhatCanYouDoResponse():
     return (
-        "Je peux t'envoyer des nouvelles du COVID-19, te parler un peu, jouer au tic tac toe avec toi, et chanter "
-        "'Never gonna give you up' avec toi " + emojis.SMILEY_FACE + " !"
+        "Je peux t'envoyer des nouvelles du COVID-19, te parler un peu, jouer au tic tac toe avec toi, chanter "
+        "'Never gonna give you up', répondre à tes question, tout aussi étranges soit-elles, et même choisir pour "
+        "toi(si tu me donnes des choix, évidemment) " + emojis.SMILEY_FACE + " !"
     )

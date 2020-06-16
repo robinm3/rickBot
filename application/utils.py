@@ -98,19 +98,15 @@ class Utils:
         else:
             extractedMessage = ""
         self.messageFromUser = extractedMessage
-        print(self.messageFromUser)
 
     def setWitCategories(self):
         witCategories = {}
         messageFromUser = self.messageFromUser
         try:
             resp = client.message(messageFromUser)
-            print(resp)
             for entity in resp["entities"]:
-                print(entity)
                 witCategories[str(entity)] = []
                 for i in resp["entities"][entity]:
-                    print(i)
                     witCategories[str(entity)].append(i["value"])
                 if len(witCategories[str(entity)]) == 1:
                     witCategories[str(entity)] = witCategories[str(entity)][0]
@@ -120,7 +116,6 @@ class Utils:
             pass
         if not witCategories:
             witCategories = {"categories": None}
-        print(witCategories)
         self.witCategories = witCategories
 
     def getMessageResponse(self):

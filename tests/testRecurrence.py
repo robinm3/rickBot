@@ -1,6 +1,6 @@
 import unittest
 
-from application.recurrence import newsEveryDay
+from application.notYetImplemented.recurrence import newsEveryDay
 
 
 class TestRecurrence(unittest.TestCase):
