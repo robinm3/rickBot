@@ -99,6 +99,11 @@ Dans ce module, on trouve les catégories(données par wit.ai), on détermine la
 
 Chacune des fonctionalités implémentées hérite de la class Functionality, qui initialise le senderId, le bot et les categories et peux renvoyer le message par getResponse. Plus qu'à implémenté le setResponse qui va déterminer le type(self.messageType) et contenu(self.messageToSend) du message à envoyer!
 
+### DataBase Access
+(voir [pyMongo.py](application/dbAccess/pyMongo.py))
+
+Mon implémentation de pyMongo pour aider à sauvegarder les trucs liés à l'utilisateur
+
 ### Tests unitaires
 (voir [tests](tests/))
 Les tests unitaires sont séparés de l'application, mais sont organisés de la même façon que l'application
