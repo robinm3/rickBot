@@ -97,7 +97,7 @@ Dans ce module, on trouve les catégories(données par wit.ai), on détermine la
 ### Les functionalities
 (voir [functionalities](application/functionalities/))
 
-Chacune des fonctionalités implémentées hérite de la class Functionality, qui initialise le senderId, le bot et les categories et peux renvoyer le message par getResponse. Plus qu'à implémenté le setResponse qui va déterminer le type(self.messageType) et contenu(self.messageToSend) du message à envoyer!
+Chacune des fonctionalités implémentées hérite de la class Functionality, qui initialise le senderId, le bot et les categories et peux renvoyer le message par getResponse. Plus qu'à implémenter le setResponse qui va déterminer le type(self.messageType) et contenu(self.messageToSend) du message à envoyer!
 
 ### DataBase Access
 (voir [pyMongo.py](application/dbAccess/pyMongo.py))
