@@ -22,7 +22,7 @@ class TestLocationFunctionality(unittest.TestCase):
         setInDB(self.SENDER_ID, {"location": "Canada"})
         response = self.functionality.getResponse()
         self.assertEqual(
-            "Ok, donc je garde Canada en note comme étant ta localisation!",
+            "Ok, donc je garde Canada en note comme étant ta localisation préférée!",
             response["message"],
         )
         self.assertEqual("text_message", response["type"])
@@ -33,8 +33,7 @@ class TestLocationFunctionality(unittest.TestCase):
         setInDB(self.SENDER_ID, {"location": "India"})
         response = self.functionality.getResponse()
         self.assertEqual(
-            "Ta localisation jusqu'à maintenant était India"
-            ", est-ce que tu veux la changer?",
+            "Ton endroit préféré jusqu'à maintenant était India, est-ce que tu veux le changer?",
             response["message"],
         )
         self.assertEqual("text_message", response["type"])
@@ -48,13 +47,13 @@ class TestLocationFunctionality(unittest.TestCase):
         )
         response = self.functionality.getResponse()
         self.assertEqual(
-            "Ok, donc je garde Canada en note comme étant ta localisation!",
+            "Ok, donc je garde Canada en note comme étant ta localisation préférée!",
             response["message"],
         )
         self.assertEqual("text_message", response["type"])
         setInDB(self.SENDER_ID, {"location": "Canada"})
 
-    def test_getResponse_whenNotChangingLocation(self):
+    def test_getResponse_whenSayingNoChangingLocation(self):
         # check default message and type
         setInDB(
             self.SENDER_ID,

@@ -151,6 +151,6 @@ class SmallTalkFunctionality(Functionality):
 def getWhatCanYouDoResponse():
     return (
         "Je peux t'envoyer des nouvelles du COVID-19, te parler un peu, jouer au tic tac toe avec toi, chanter "
-        "'Never gonna give you up', répondre à tes question, tout aussi étranges soit-elles, et même choisir pour "
+        "'Never gonna give you up', répondre à tes questions, tout aussi étranges soit-elles, et même choisir pour "
         "toi(si tu me donnes des choix, évidemment) " + emojis.SMILEY_FACE + " !"
     )

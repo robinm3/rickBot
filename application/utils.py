@@ -3,6 +3,10 @@ import constants
 from pymessenger import Bot
 from wit import Wit
 from application.dbAccess.pyMongo import getInDB, deleteFromDB
+from application.functionalities import favoriteThingFunctionality
+from application.functionalities.favoriteThingFunctionality import (
+    FavoriteThingFunctionality,
+)
 from application.functionalities.gameFunctionality import GameFunctionality
 from application.functionalities.locationFunctionality import LocationFunctionality
 from application.functionalities.newsFunctionality import NewsFunctionality
@@ -127,18 +131,24 @@ class Utils:
             "response" in categories
             or "location" in categories
             or "frequence" in categories
+            or "favoriteType" in categories
+            or "favorite" in categories
         ):
             question = getInDB(senderId, "question")
             if "location" in question:
                 functionality = LocationFunctionality(senderId, bot, categories)
             elif "newsRecurrence" in question:
                 functionality = NewsFunctionality(senderId, bot, categories)
+            elif "favorite" in question:
+                functionality = FavoriteThingFunctionality(senderId, bot, categories)
             else:
                 functionality = SmallTalkFunctionality(senderId, bot, categories)
         elif "choice" in categories:
             functionality = ChoiceQuestionsFunctionality(senderId, bot, categories)
         elif "newsType" in categories:
             functionality = NewsFunctionality(senderId, bot, categories)
+        elif "favoriteType" in categories:
+            functionality = FavoriteThingFunctionality(senderId, bot, categories)
         elif "question" in categories and (
             "Comment" in categories["question"]
             or "Quand" in categories["question"]

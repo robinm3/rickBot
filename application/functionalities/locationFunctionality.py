@@ -36,8 +36,8 @@ class LocationFunctionality(Functionality):
         if not oldLocation:
             oldLocation = "inconnue"
         messageToSend = (
-            "Ta localisation jusqu'à maintenant était {0}"
-            ", est-ce que tu veux la changer?".format(oldLocation)
+            "Ton endroit préféré jusqu'à maintenant était {0}"
+            ", est-ce que tu veux le changer?".format(oldLocation)
         )
         setInDB(senderId, {"question": "location", "response": newLocation})
         return messageToSend
@@ -46,7 +46,7 @@ class LocationFunctionality(Functionality):
         newLocation = self.newLocation
         senderId = self.senderId
         setInDB(senderId, {"location": newLocation})
-        return "Ok, donc je garde {0} en note comme étant ta localisation!".format(
+        return "Ok, donc je garde {0} en note comme étant ta localisation préférée!".format(
             newLocation
         )
 

@@ -52,16 +52,55 @@ class TestUtils(unittest.TestCase):
         self.assertIn("newsType", self.utilities.witCategories)
 
     def test_witCategories_Question(self):
+        deleteFromDB(self.SENDER_ID)
         self.utilities.resetValues()
         self.utilities.messageFromUser = "ça va?"
         self.utilities.setWitCategories()
         self.assertIn("question", self.utilities.witCategories)
 
     def test_getMessageResponse_NewsType(self):
+        deleteFromDB(self.SENDER_ID)
         self.utilities.resetValues()
         self.utilities.witCategories = {"newsType"}
         response = self.utilities.getMessageResponse()
         self.assertEqual("generic_message", response["type"])
+
+    def test_getMessageResponse_Location(self):
+        deleteFromDB(self.SENDER_ID)
+        self.utilities.resetValues()
+        self.utilities.witCategories = {"location": "Canada"}
+        response = self.utilities.getMessageResponse()
+        self.assertEqual("text_message", response["type"])
+        self.assertEqual(
+            "Ton endroit préféré jusqu'à maintenant était inconnue, est-ce que tu veux le changer?",
+            response["message"],
+        )
+
+    def test_getMessageResponse_Favorite(self):
+        deleteFromDB(self.SENDER_ID)
+        self.utilities.resetValues()
+        self.utilities.witCategories = {"favorite": "chien", "favoriteType": "animal"}
+        response = self.utilities.getMessageResponse()
+        self.assertEqual("text_message", response["type"])
+        self.assertEqual(
+            "Ok, donc je garde chien en note pour animal préféré(e)!",
+            response["message"],
+        )
+
+    def test_getMessageResponse_FavoriteFollowUp(self):
+        deleteFromDB(self.SENDER_ID)
+        self.utilities.resetValues()
+        setInDB(
+            self.SENDER_ID,
+            {"question": "favorite", "type": "animal", "response": "chien"},
+        )
+        self.utilities.witCategories = {"response": "oui"}
+        response = self.utilities.getMessageResponse()
+        self.assertEqual("text_message", response["type"])
+        self.assertEqual(
+            "Ok, donc je garde chien en note pour animal préféré(e)!",
+            response["message"],
+        )
 
     def test_getMessageResponse_Sing(self):
         deleteFromDB(self.SENDER_ID)
@@ -85,7 +124,7 @@ class TestUtils(unittest.TestCase):
                 "La 4e à ta gauche",
                 "Hmmm. Bonne question. Si j'avais le choix, je pense que je choisirais celle qui est la même que le "
                 "fils unique de la fille unique de ma grand-mère",
-                "La patate à Mononc' Serge",
+                "La même que la patate à Mononc' Serge",
             ],
         )
 
