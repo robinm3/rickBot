@@ -82,4 +82,23 @@ Il peut aussi vous envoyez des rickrolls si ça lui tente, sauvegarder votre sup
 
 Rickbot n'arrête pas de vous dire la même chose ou il semble y avoir un problème quelconque? Écrivez "Reboot" à RickBot et ça risque de règler le problème temporairement.
 
+## Architecture
 
+Dans cette section, j'explique l'organisation de mon code. 
+
+### app.py
+(voir [app.py](app.py))
+Dans ce module, on prend le message et les données qui y sont liées et on appelle utils.py pour envoyer le message.
+
+### utils.py
+(voir [utils.py](application/utils.py))
+Dans ce module, on trouve les catégories(données par wit.ai), on détermine la functionality à utiliser et on envoie le message.
+
+### Les functionalities
+(voir [functionalities](application/functionalities/))
+
+Chacunes des fonctionalités implémentées hérite de la class Functionality de base, qui initialise le senderId, le bot et les categories (données par Wit.ai) et peux renvoyer le message par getResponse. Plus qu'à implémenté le setResponse qui va déterminer le type et contenu du message renvoyé!
+
+### Tests unitaires
+(voir [tests](tests/))
+Les tests unitaires sont séparés de l'application, mais sont organisés de la même façon que l'application
