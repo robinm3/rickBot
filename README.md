@@ -78,4 +78,8 @@ Il peut aussi vous envoyez des rickrolls si ça lui tente, sauvegarder votre sup
 </p>
 
 
+## Vous avez un bug?
+
+Rickbot n'arrête pas de vous dire la même chose ou il semble y avoir un problème quelconque? Écrivez "Reboot" à RickBot et ça risque de règler le problème temporairement.
+
 
