@@ -60,7 +60,13 @@ Il ne connait qu'une chanson, mais il la connait bien. Commencez en lui envoyant
 <img src="https://github.com/robinm3/rickBot/blob/master/images/sing.png" height="400">
 </p>
 
+### Se rappeler de vos trucs préférés
 
+Une vrai conversation demande de l'écoute, et quoi de mieux pour montrer son écoute que de se rappeler des trucs préférés de l'autre? Maintenant, RickBot peut se rappeler de vos trucs préférés, que ce soit votre enfant préféré ou votre livre préféré. (voir [favoriteThingFunctionality](application/functionalities/favoriteThingFunctionality.py) pour le code)
+
+<p align="center">
+<img src="https://github.com/robinm3/rickBot/blob/master/images/favorite.png" height="400">
+</p>
 
 ### Autres
 
